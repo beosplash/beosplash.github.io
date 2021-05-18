@@ -28,8 +28,10 @@
         };
 
         mediaRecorder.onstop = () => {
-          const b = new Blob(blobs, { type: mediaRecorder.mimeType });
-          console.log(b);
+          const file = new File([blobs], "upload.webm", {
+            type: "video/webm",
+          });
+          alert(file);
         };
 
         mediaRecorder.start();
