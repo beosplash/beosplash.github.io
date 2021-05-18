@@ -1,12 +1,11 @@
 <html>
   <body>
-    <h1>3</h1>
+    <h1>2</h1>
     <button onclick="startRecording()">start</button><br />
-    <video id="video" autoplay muted></video>
+    <video id="video" autoplay playsinline muted></video>
     <script>
       const startRecording = async () => {
         if (!navigator.mediaDevices.getUserMedia) return;
-
         let blobs = [];
         let stream;
         let mediaRecorder;
