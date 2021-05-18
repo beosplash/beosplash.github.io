@@ -1,0 +1,44 @@
+<html>
+  <body>
+    <h1>2</h1>
+    <button onclick="startRecording()">start</button><br />
+    <video id="video" autoplay playsinline muted></video>
+    <script>
+      const startRecording = async () => {
+        if (!navigator.mediaDevices.getUserMedia) return;
+        let blobs = [];
+        let stream;
+        let mediaRecorder;
+        const video = document.querySelector("video");
+
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        });
+
+        mediaRecorder = new MediaRecorder(stream);
+
+        video.srcObject = stream;
+        video.onloadedmetadata = function (e) {
+          video.play();
+        };
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data) blobs.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const b = new Blob(blobs, { type: mediaRecorder.mimeType });
+          console.log(b);
+        };
+
+        mediaRecorder.start();
+
+        setTimeout(() => {
+          mediaRecorder.stop();
+          stream.getTracks().forEach((track) => track.stop());
+        }, 3000);
+      };
+    </script>
+  </body>
+</html>
